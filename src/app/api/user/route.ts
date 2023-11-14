@@ -14,5 +14,5 @@ export async function PUT() {
 }
 
 export async function DELETE() {
-  return NextResponse.json({ message: "Hello User DELETE" }, { status: 200 });
+  return NextResponse.json({ message: "Hello User DEL" }, { status: 200 });
 }
