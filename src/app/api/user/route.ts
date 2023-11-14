@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 
-import users from "@/db.js";
 
 export async function GET() {
-  return NextResponse.json(users, { status: 200 });
+  return NextResponse.json({ message: "Hello User GET" }, { status: 200 });
 }
 
 export async function POST() {
