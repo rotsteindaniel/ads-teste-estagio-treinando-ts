@@ -11,9 +11,9 @@ import Link from "next/link";
 
 import styles from "./page.module.css";
 
-import LoginCard from "../../components/cards/logincard/login";
-import Input from "../../components/forms/input/input";
-import Button from "../../components/forms/button/button";
+import LoginCard from "../../../components/cards/logincard/login";
+import Input from "../../../components/forms/input/input";
+import Button from "../../../components/forms/button/button";
 
 const createUserFormSchema = z.object({
   email: z
