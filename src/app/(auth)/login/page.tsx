@@ -75,7 +75,7 @@ export default function Login() {
             <p style={{ color: "red" }}>{errors.password.message}</p>
           )}
           <Button>Entrar</Button>
-          <Link href="/cadastro" className={styles.cadastro}>
+          <Link href="/register" className={styles.cadastro}>
             Não possui uma conta?
           </Link>
         </form>

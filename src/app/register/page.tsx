@@ -37,7 +37,7 @@ const createUserFormSchema = z.object({
 
 export type CreateUserFormData = z.infer<typeof createUserFormSchema>;
 
-export default function Cadastro() {
+export default function Register() {
   const router = useRouter();
   const { registerUser, isLoading, error } = useUserRegistration();
 
@@ -77,7 +77,7 @@ export default function Cadastro() {
             type="e-mail"
             placeholder="Seu e-mail"
             name="email"
-            autocomplete="email"
+            autoComplete="email"
             register={register}
           />
           {errors.email && (
@@ -87,7 +87,7 @@ export default function Cadastro() {
             type="password"
             placeholder="Sua senha"
             name="password"
-            autocomplete="new-password"
+            autoComplete="new-password"
             register={register}
           />
           {errors.password && (
@@ -97,7 +97,7 @@ export default function Cadastro() {
             type="text"
             placeholder="Seu nome e sobrenome"
             name="name"
-            autocomplete="name"
+            autoComplete="name"
             register={register}
           />
           {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
@@ -105,7 +105,7 @@ export default function Cadastro() {
             type="date"
             placeholder="Data de nascimento"
             name="date"
-            autocomplete="bday"
+            autoComplete="bday"
             register={register}
           />
           {errors.date && <p style={{ color: "red" }}>{errors.date.message}</p>}

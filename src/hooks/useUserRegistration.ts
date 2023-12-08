@@ -1,6 +1,6 @@
 // useUserRegistration.ts
 
-import { CreateUserFormData } from "@/app/cadastro/page";
+import { CreateUserFormData } from "@/app/register/page";
 import { useState } from "react";
 
 interface UseUserRegistration {

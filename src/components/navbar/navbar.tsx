@@ -50,7 +50,7 @@ export default function Navbar() {
             </li>
             <li className={styles.li}>
               <Button>
-                <Link href="/cadastro">Cadastro</Link>
+                <Link href="/register">Cadastro</Link>
               </Button>
             </li>
           </>
