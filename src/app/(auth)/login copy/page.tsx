@@ -1,8 +1,10 @@
 "use client";
 
+import { useContext, useState } from "react";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import * as z from "zod";
 
 import Link from "next/link";
@@ -12,13 +14,7 @@ import styles from "./page.module.css";
 import LoginCard from "../../../components/cards/logincard/login";
 import Input from "../../../components/forms/input/input";
 import Button from "../../../components/forms/button/button";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-export type SignInData = {
-  email: string;
-  password: string;
-};
+// import { AuthContext, SignInData } from "@/contexts/AuthContext";
 
 const loginUserFormSchema = z.object({
   email: z
@@ -30,7 +26,7 @@ const loginUserFormSchema = z.object({
 
 type loginUserFormData = z.infer<typeof loginUserFormSchema>;
 
-export default function Login() {
+export default function LoginPageCopy() {
   const {
     register,
     handleSubmit,
@@ -39,17 +35,10 @@ export default function Login() {
     resolver: zodResolver(loginUserFormSchema),
   });
 
-  const router = useRouter();
+  // const { signIn } = useContext(AuthContext);
 
   async function handleSignIn({ email, password }: SignInData) {
-    const response = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    console.log("[LOGIN_RESPONSE]: ", response);
-    router.replace("/perfil");
+    await signIn({ email, password });
   }
 
   return (

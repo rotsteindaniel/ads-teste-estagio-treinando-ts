@@ -11,32 +11,36 @@ import Link from "next/link";
 
 import styles from "./page.module.css";
 
-import LoginCard from "../../../components/cards/logincard/login";
-import Input from "../../../components/forms/input/input";
-import Button from "../../../components/forms/button/button";
+import LoginCard from "../../components/cards/logincard/login";
+import Input from "../../components/forms/input/input";
+import Button from "../../components/forms/button/button";
+import { useUserRegistration } from "@/hooks/useUserRegistration";
 
 const createUserFormSchema = z.object({
   email: z
     .string()
-    .nonempty({ message: "O email é obrigatório" })
+    .min(1, { message: "O email é obrigatório" })
     .email({ message: "Campo obrigatório" }),
   password: z
     .string()
-    .nonempty({ message: "A senha é obrigatória" })
+    .min(1, { message: "A senha é obrigatória" })
     .min(6, { message: "Senha curta (menos de 6 caracteres)" })
     .regex(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, {
       message: "A senha deve conter letras, números e caracteres especiais",
     }),
-  name: z.string().nonempty({ message: "A nome completo é obrigatório" }),
-  date: z.string().nonempty({ message: "A data de nascimento é obrigatória" }),
+  name: z.string().min(1, { message: "A nome completo é obrigatório" }),
+  date: z.string().min(1, { message: "A data de nascimento é obrigatória" }),
   gender: z
     .string()
-    .nonempty({ message: "A gênero de nascimento é obrigatória" }),
+    .min(1, { message: "A gênero de nascimento é obrigatória" }),
 });
 
-type CreateUserFormData = z.infer<typeof createUserFormSchema>;
+export type CreateUserFormData = z.infer<typeof createUserFormSchema>;
 
 export default function Cadastro() {
+  const router = useRouter();
+  const { registerUser, isLoading, error } = useUserRegistration();
+
   const {
     register,
     handleSubmit,
@@ -52,7 +56,17 @@ export default function Cadastro() {
     date,
     gender,
   }: CreateUserFormData) {
-    console.log({ email, password, name, date, gender });
+    try {
+      registerUser({ email, password, name, date, gender });
+
+      // If the registration is successful, alert the user and navigate to the login page
+      alert("Usuário cadastrado com sucesso!");
+      router.push("/login");
+    } catch (error) {
+      // If there's an error, handle it and alert the user
+      console.error("An error occurred during registration", error);
+      alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
+    }
   }
 
   return (
@@ -63,6 +77,7 @@ export default function Cadastro() {
             type="e-mail"
             placeholder="Seu e-mail"
             name="email"
+            autocomplete="email"
             register={register}
           />
           {errors.email && (
@@ -72,6 +87,7 @@ export default function Cadastro() {
             type="password"
             placeholder="Sua senha"
             name="password"
+            autocomplete="new-password"
             register={register}
           />
           {errors.password && (
@@ -81,13 +97,15 @@ export default function Cadastro() {
             type="text"
             placeholder="Seu nome e sobrenome"
             name="name"
+            autocomplete="name"
             register={register}
           />
           {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
           <Input
             type="date"
-            placeholder="Seu nome e sobrenome"
+            placeholder="Data de nascimento"
             name="date"
+            autocomplete="bday"
             register={register}
           />
           {errors.date && <p style={{ color: "red" }}>{errors.date.message}</p>}
@@ -99,7 +117,9 @@ export default function Cadastro() {
           {errors.gender && (
             <p style={{ color: "red" }}>{errors.gender.message}</p>
           )}
-          <Button>Cadastrar</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "Cadastrando..." : "Cadastrar"}
+          </Button>
           <Link href="/login">Já possui uma conta?</Link>
         </form>
       </LoginCard>

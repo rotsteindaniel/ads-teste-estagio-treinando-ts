@@ -15,7 +15,7 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  // let isAuthenticated = false;
+  let isAuthenticated = false;
 
   return (
     <html lang="en">
